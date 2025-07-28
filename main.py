@@ -12,17 +12,22 @@ import subprocess
 import json
 import google.generativeai as genai
 
-Api = "#"
+Api = os.environ.get('GENAI_API_KEY')
 genai.configure(api_key=Api)
 model = genai.GenerativeModel("gemini-2.0-flash")
 
-TOKEN = "#"
-chat_id = "#"
+TOKEN = os.environ.get('TELEGRAM_TOKEN')
+chat_id = os.environ.get('TELEGRAM_CHAT_ID')
 
-key = b'#'
+key = os.environ.get('FERNET_KEY').encode()
 cipher_suite = Fernet(key)
 
-mydb=mysql.connector.connect(host="127.0.0.1",user="root",passwd="1111",database="banking_system")
+mydb = mysql.connector.connect(
+    host="127.0.0.1",
+    user=os.environ.get('DB_USER'),
+    passwd=os.environ.get('DB_PASS'),
+    database="banking_system"
+)
 mycursor=mydb.cursor()
 
 app = Flask(__name__)

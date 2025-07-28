@@ -3,8 +3,13 @@ import firebase_admin
 from firebase_admin import credentials, db
 import time
 import mysql.connector
+import os
 
-mydb=mysql.connector.connect(host="127.0.0.1",user="root",passwd="1111",database="banking_system")
+mydb = mysql.connector.connect(
+    host=os.environ.get('DB_HOST', '127.0.0.1'),
+    user=os.environ.get('DB_USER'),
+    passwd=os.environ.get('DB_PASS'),
+    database=os.environ.get('DB_NAME', 'banking_system'))
 mycursor=mydb.cursor()
 
 status = [0, 0, 0]
@@ -87,9 +92,21 @@ def initialize_firebase_app(cert_path, db_url, nm):
         print(f"Failed to initialize {nm} server: {e}")
 
 def start():
-    initialize_firebase_app(r'C:\Users\shubh\Desktop\SecureFlow\keys\SBI.json','https://sbi-server-default-rtdb.firebaseio.com/', "SBI_Server")
-    initialize_firebase_app(r'C:\Users\shubh\Desktop\SecureFlow\keys\AXIS.json','https://axis-server-default-rtdb.firebaseio.com/', "AXIS_Server")
-    initialize_firebase_app(r'C:\Users\shubh\Desktop\SecureFlow\keys\HDFC.json','https://hdfc-server-25e02-default-rtdb.firebaseio.com/', "HDFC_Server")
+    initialize_firebase_app(
+        os.environ.get('SBI_CERT_PATH'),
+        os.environ.get('SBI_DB_URL'),
+        "SBI_Server"
+    )
+    initialize_firebase_app(
+        os.environ.get('AXIS_CERT_PATH'),
+        os.environ.get('AXIS_DB_URL'),
+        "AXIS_Server"
+    )
+    initialize_firebase_app(
+        os.environ.get('HDFC_CERT_PATH'),
+        os.environ.get('HDFC_DB_URL'),
+        "HDFC_Server"
+    )
     while True:
         print_transaction_details()
         time.sleep(5)

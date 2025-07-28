@@ -4,6 +4,8 @@ import sys
 import json
 import mysql.connector
 from pymongo import MongoClient
+import os
+
 success=0
 data_as_json = sys.argv[1]
 data = json.loads(data_as_json)
@@ -11,14 +13,18 @@ user_id=data["user_id"]
 upi=data["upi"]
 amount=data["amount"]
 bank=data["bank"]
-mydb=mysql.connector.connect(host="127.0.0.1",user="root",passwd="1111",database="banking_system")
+mydb = mysql.connector.connect(
+    host=os.environ.get('DB_HOST', '127.0.0.1'),
+    user=os.environ.get('DB_USER'),
+    passwd=os.environ.get('DB_PASS'),
+    database=os.environ.get('DB_NAME', 'banking_system')
+)
 mycursor=mydb.cursor()
 try:
-    aa
     print("Trying First Server")
-    credential_path = r'C:\Users\shubh\Desktop\SecureFlow\keys\transaction1.json'
+    credential_path = os.environ.get('TRANSACTION1_CERT_PATH')
     cred = credentials.Certificate(credential_path)
-    database_url = 'https://transaction1-6a566-default-rtdb.firebaseio.com/'
+    database_url = os.environ.get('TRANSACTION1_DB_URL')
     app_name = 'Transaction1'
     firebase_app = firebase_admin.initialize_app(cred,{'databaseURL': database_url},name=app_name)
     ref = db.reference('/', app=firebase_app)
@@ -39,11 +45,10 @@ try:
         print("SQL Error")
 except:
     try:
-        aa
         print("Trying Second Server")
-        credential_path = r'C:\Users\shubh\Desktop\SecureFlow\keys\transaction2.json'
+        credential_path = os.environ.get('TRANSACTION2_CERT_PATH')
         cred = credentials.Certificate(credential_path)
-        database_url = 'https://transaction2-400-default-rtdb.firebaseio.com/'
+        database_url = os.environ.get('TRANSACTION2_DB_URL')
         app_name = 'Transaction2'
         firebase_app = firebase_admin.initialize_app(cred,{'databaseURL': database_url},name=app_name)
         ref = db.reference('/', app=firebase_app)

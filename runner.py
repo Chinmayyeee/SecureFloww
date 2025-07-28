@@ -2,9 +2,12 @@ import firebase_admin
 from firebase_admin import credentials, db
 import random
 import time
+import os
+
 start = time.time()
-credential_path = r'C:\Users\shubh\Desktop\SecureFlow\keys\SBI.json'
-database_url = 'https://sbi-server-default-rtdb.firebaseio.com/'
+
+credential_path = os.environ.get('SBI_CERT_PATH')
+database_url = os.environ.get('SBI_DB_URL')
 app_name = 'SBI_Server'
 
 try:
