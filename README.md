@@ -42,7 +42,7 @@ Secure Flow is a **web-based platform** designed for **secure and efficient tran
 ## 🚀 Installation & Setup
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com//Shubhaaaaam/SecureFlow.git
+   git clone https://github.com//Chinmayyeee/SecureFloww.git
    cd SecureFlow
    ```
 
